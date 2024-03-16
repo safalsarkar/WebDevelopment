@@ -79,10 +79,3 @@ body {
 .books-list li:hover {
     transform: translateY(-3px);
 }
-
-#hello-output {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
