@@ -3,7 +3,7 @@ exports.handler = async function(event, context) {
       const response = await fetch('https://dummyjson.com/posts/');
       const data = await response.json();
   
-      // Filter posts with more than 5 reactions
+    
       const filteredPosts = data.posts.filter(post => post.reactions > 5);
   
       return {

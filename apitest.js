@@ -1,5 +1,5 @@
 
-function joke() {
+ function joke() {
     fetch('https://n53y4kdb3nbhxuz7uovq5jj7li0uqgsf.lambda-url.us-east-1.on.aws/?api=joke')
         .then(response => response.json())
         .then(data => {
@@ -16,7 +16,7 @@ function joke() {
 
 quoteOftheday();
 function quoteOftheday() {
-
+   
     fetch('https://n53y4kdb3nbhxuz7uovq5jj7li0uqgsf.lambda-url.us-east-1.on.aws/?api=qotd')
         .then(response => response.json())
         .then(data => {
@@ -25,10 +25,10 @@ function quoteOftheday() {
             modalBody.innerHTML = `
             <p>"${data.quote.body}"</p>
             <p class="text-muted">- ${data.quote.author}</p>`;
-
+           
 
         });
-
+   
 }
 document.getElementById('show').addEventListener('click', quoteOftheday);
 
@@ -46,18 +46,38 @@ function displayBooks() {
         });
 }
 
-function fetchNetlifyFunction() {
-    fetch("/.netlify/functions/hello")
-        .then(response => response.json())
-        .then(data => {
-            const outputDiv = document.getElementById("hello-output");
-            outputDiv.textContent = data.message;
-        })
-        .catch(error => console.error("Error fetching Netlify Function output:", error));
-}
-
-fetchNetlifyFunction();
 
 joke();
 
 displayBooks();
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const postsContainer = document.getElementById('posts');
+  
+    // Event listener for a button click
+    document.getElementById('fetchPostsBtn').addEventListener('click', function() {
+      fetch('/.netlify/functions/fetchPost')
+        .then(response => response.json())
+        .then(data => {
+          postsContainer.innerHTML = ''; // Clear previous content
+  
+          data.forEach(post => {
+            const postElement = document.createElement('div');
+            postElement.classList.add('post');
+            postElement.innerHTML = `
+              <h3>${post.title}</h3>
+              <p>${post.body}</p>
+              <p>Reactions: ${post.reactions}</p>
+              <hr>
+            `;
+            postsContainer.appendChild(postElement);
+          });
+        })
+        .catch(error => {
+          postsContainer.innerHTML = '<p>Error fetching posts</p>';
+          console.error('Error fetching posts:', error);
+        });
+    });
+  });
+  

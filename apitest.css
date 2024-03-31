@@ -21,8 +21,12 @@ body {
 .container {
     max-width: 800px;
     margin: auto;
+    background-color: aliceblue;
 }
 
+body{
+    background-color: antiquewhite;
+}
 .btn-primary {
     background-color: #007bff;
     border: none;
@@ -79,13 +83,3 @@ body {
 .books-list li:hover {
     transform: translateY(-3px);
 }
-
-#hello-output {
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    background-color: aqua;
-    text-align: center;
-    border-radius: 10px;
-    border-radius: 5px;
-  }
