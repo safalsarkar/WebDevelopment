@@ -1,6 +1,17 @@
 const mysql = require('mysql2/promise');
 
 exports.handler = async (event, context) => {
+  
+  if (!context.clientContext || !context.clientContext.user) {
+    return {
+    statusCode: 401,
+    body: JSON.stringify({ error: 'You must be logged in.' }),
+    };
+    }
+    
+    const user = context.clientContext.user;
+  
+    console.log('Authenticated user:', user);
   try {
     const { title, author, isbn, published_year, genre } = JSON.parse(event.body);
  
@@ -13,7 +24,7 @@ exports.handler = async (event, context) => {
       database: process.env.DB_NAME
     });
 
-    const sql = 'INSERT INTO safkc (title, author, isbn, published_year, genre) VALUES (?, ?, ?, ?, ?)';
+    const sql = 'INSERT INTO Safkc (title, author, isbn, published_year, genre) VALUES (?, ?, ?, ?, ?)';
     await connection.execute(sql, [title, author, isbn, published_year, genre]);
     await connection.end();
 

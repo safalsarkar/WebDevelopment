@@ -1,6 +1,17 @@
 const mysql = require('mysql2/promise');
 
 exports.handler = async (event, context) => {
+    
+  if (!context.clientContext || !context.clientContext.user) {
+    return {
+    statusCode: 401,
+    body: JSON.stringify({ error: 'You must be logged in.' }),
+    };
+    }
+    
+    const user = context.clientContext.user;
+  
+    console.log('Authenticated user:', user);
   try {
     const { id } = event.queryStringParameters;
 
@@ -11,7 +22,7 @@ exports.handler = async (event, context) => {
       database: process.env.DB_NAME
     });
 
-    const [book] = await connection.query('SELECT * FROM safkc WHERE id = ?', [id]);
+    const [book] = await connection.query('SELECT * FROM Safkc WHERE id = ?', [id]);
     await connection.end();
 
     if (book.length === 0) {
